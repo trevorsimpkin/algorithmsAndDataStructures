@@ -94,16 +94,17 @@ public class AlgorithmsAndDataStructures {
     public static void heapSort(int [] arr) {
         buildMaxHeap(arr);
         System.out.println("Initial Heap:");
+        printTree(arr);
         printArray(arr);
         int N = arr.length-1;
-        for(int i = N; i >0; i--) {
+        for(int i = N; i > 0; i--) {
             swap(arr,0,i);
             N=N-1;
             maxHeapify(arr,0,N);
         }
         printArray(arr);
         
-        //printTree(arr);
+        
     }
     public static void maxHeapify (int [] arr, int i, int N) {
         int l = left(i);
@@ -160,15 +161,47 @@ public class AlgorithmsAndDataStructures {
         }
         System.out.println("]");
     }
-    /*
-    //FOR HEAP TEST
+    public static void printSpaces(int n) {
+        for (int i = 0; i < n; i++) {
+            System.out.print(" ");
+        }
+    }
     public static void printTree(int[]arr) {
-        System.out.println("        " + arr[0]);
-        System.out.println("      "+arr[1]+"    "+arr[2]);
-        System.out.println("   "+arr[3]+"  "+arr[4]+"  "+arr[5]+"  "+arr[6]);
-        System.out.println(arr[7]+" "+arr[8]+" "+arr[9]);
+        int initialSpaces = ((arr.length+1)/2)*2;
+        int spaces = initialSpaces*2;
+        int level = 1;
+        int i = 0;
+        boolean lastLevel = false;
+        //int height = (int)(Math.log(arr.length)/Math.log(2)) + 1;
+        //System.out.println(height);
+        while (i < arr.length) {
+            printSpaces(initialSpaces);
+            for (int j=i; j < level; j++) {
+                System.out.print(arr[j]);
+                if (j!=0) {
+                    if(j+1<arr.length&&arr[j+1]<10) {
+                        printSpaces(spaces);
+                    }
+                    else {
+                        printSpaces(spaces-1);
+                    }
+                    
+                }
+            }
+           
+            i=level;
+            level = (level*2)+1;
+            if (level>=arr.length) {
+                level = arr.length;
+                lastLevel = true;
+            }
+            spaces=spaces/2;
+            initialSpaces=initialSpaces-(spaces/2);
+            System.out.println();
+        }
+        System.out.println();
                 
-    }*/
+    }
    
     
 }
