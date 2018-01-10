@@ -166,16 +166,27 @@ public class AlgorithmsAndDataStructures {
             System.out.print(" ");
         }
     }
+    public static void printLine(int size, int level, int [] arr ) {
+        int startingIndex = (int)Math.pow(2,level-1)-1;
+        for (int i = 0; i<2*(level-1); i++) {
+            printSpaces(size/level);
+            System.out.print(arr[startingIndex]);
+            startingIndex++;
+        }
+        System.out.println();
+        
+    }
+    //For kicks and gigs. Needs some formatting. Probably should use printf. 
     public static void printTree(int[]arr) {
         int initialSpaces = ((arr.length+1)/2)*2;
         int spaces = initialSpaces*2;
         int level = 1;
+        int height = (int) (Math.log(arr.length)/Math.log(2))+1;
         int i = 0;
-        boolean lastLevel = false;
-        //int height = (int)(Math.log(arr.length)/Math.log(2)) + 1;
-        //System.out.println(height);
-        while (i < arr.length) {
-            printSpaces(initialSpaces);
+        while (level <= height) {
+            printLine(spaces, level, arr);
+            level++;
+        /*    printSpaces(initialSpaces);
             for (int j=i; j < level; j++) {
                 System.out.print(arr[j]);
                 if (j!=0) {
@@ -193,13 +204,12 @@ public class AlgorithmsAndDataStructures {
             level = (level*2)+1;
             if (level>=arr.length) {
                 level = arr.length;
-                lastLevel = true;
             }
             spaces=spaces/2;
             initialSpaces=initialSpaces-(spaces/2);
             System.out.println();
+        }*/
         }
-        System.out.println();
                 
     }
    
