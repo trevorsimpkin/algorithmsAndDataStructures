@@ -6,6 +6,8 @@
 package algorithmsanddatastructures;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 
@@ -60,8 +62,13 @@ public class AlgorithmsAndDataStructures {
         //System.out.println(test);
     }
     public static void sort(int [] arr) {
-        System.out.println("Here is your initial array: ");
-        printArray(arr);
+        if(arr.length<1000) {
+            System.out.println("Here is your initial array: ");
+            printArray(arr);
+        }
+        else {
+            System.out.println("Your array has been created but is too long to print.");
+        }
         System.out.println("How would you like to sort your array?");
         System.out.println("Here are your options: ");
         System.out.println("1: Heap Sort");
@@ -90,10 +97,25 @@ public class AlgorithmsAndDataStructures {
                         countingSort(arr);
                         break;
                 case 5: System.out.println("You have chosen a Radix Sort: ");
-                        radixSort(arr);
+                        int digits = String.valueOf(arr.length).length();
+                        radixSort(arr, digits);
                         break;
                 case 6: System.out.println("You have chosen a Bucket Sort: ");
-                        bucketSort(arr);
+                        System.out.println("Bucket sort is best used when the "
+                                + "distribution of numbers to be sorted is relatively "
+                                + "small.");
+                        System.out.println("We are going to reconstruct array to"
+                                + " satisfy this condition.");
+                        int n = arr.length;
+                        double [] bucketarr = new double [n];
+                        for (int i = 0; i < n; i++){
+                            bucketarr[i]=Math.random();
+                        }
+                        System.out.println("Your new array is: ");
+                        printArray(bucketarr);
+                        bucketSort(bucketarr, 10);
+                        System.out.println("Here is your sorted array!");
+                        printArray(bucketarr);
                         break;
                 case 7: System.out.println("You have chosen a speed test: ");
                         speedTest(arr);
@@ -103,7 +125,10 @@ public class AlgorithmsAndDataStructures {
                          break;
             }
             System.out.println("Here is your sorted array!");
-            printArray(arr);
+            if (choice!=6) {
+               printArray(arr); 
+            }
+            
         }
     }
     /*
@@ -114,7 +139,8 @@ public class AlgorithmsAndDataStructures {
     better. Could also make JavaFX visual, but WHY? Maybe cool to make Web
     visuals for web site? Uses buildMaxHeap to build initial heap then calls
     max heapify on remainder of heap after placing largest element in rear of 
-    array (heap). 
+    array (heap). Could also make heap object with maxheapify and constructor 
+    could build maxheap. 
     */
     public static void heapSort(int [] arr) {
         buildMaxHeap(arr);
@@ -245,11 +271,49 @@ public class AlgorithmsAndDataStructures {
         }
         
     }
-    public static void radixSort(int []arr) {
+    public static void radixSort(int []arr, int d) {
+        for (int i = 1; i <= d; i++) {
+            int decimal = (int)Math.pow(10,i);
+            countingSortRadix(arr, decimal);
+        }
+    }
+    public static void countingSortRadix(int []arr, int decimal) {
+        int divideBy = decimal/10; //sort only on decimal place.
+        int [] copy = Arrays.copyOf(arr, arr.length);
+        int [] count =  new int [10];
+        for (int i = 0; i < copy.length; i++) {
+            count[(copy[i]%decimal)/ divideBy]++;
+        }
+        for (int k = 1; k <count.length; k++) {
+            count[k] = count[k]+count[k-1];
+        }
+        for( int j = arr.length-1; j >=0; j--) {
+            
+            arr[count[(copy[j]%decimal)/divideBy]-1]=copy[j];
+            count[(copy[j]%decimal)/divideBy]= count[(copy[j]%decimal)/divideBy]-1;
+        }
         
     }
-    public static void bucketSort(int []arr) {
-        
+    public static void bucketSort(double []arr, int numOfBuckets) {
+        LinkedList [] bucket = new LinkedList[numOfBuckets];
+        for (int j = 0; j < numOfBuckets; j++) {
+            bucket[j] = new LinkedList<>();
+        }
+        for (int i = 0; i < arr.length; i++) {
+            bucket[(int)(numOfBuckets*arr[i])].add(arr[i]);
+        }
+        for (int j = 0; j < bucket.length; j++) {
+            if(!bucket[j].isEmpty()) {
+                     Collections.sort(bucket[j]);
+            }
+        }
+        int i = 0;
+        for (int j = 0; j < bucket.length; j++) {
+            while (!bucket[j].isEmpty()) {
+                arr[i] = (double) bucket[j].remove();
+                i++;
+            }
+        }
     }
     public static void speedTest(int [] arr) {
         int [] copy = Arrays.copyOf(arr, arr.length);
@@ -279,6 +343,13 @@ public class AlgorithmsAndDataStructures {
     public static void printArray(int[]arr) {
        System.out.print("[");
         for (int i: arr){
+            System.out.print(i + " ");
+        }
+        System.out.println("]");
+    }
+    public static void printArray(double[]arr) {
+       System.out.print("[");
+        for (double i: arr){
             System.out.print(i + " ");
         }
         System.out.println("]");
