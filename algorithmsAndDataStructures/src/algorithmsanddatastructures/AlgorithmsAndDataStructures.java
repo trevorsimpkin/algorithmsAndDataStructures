@@ -22,8 +22,8 @@ public class AlgorithmsAndDataStructures {
                 + "want to learn.");
         System.out.println("Here are your options: ");
         System.out.println("1: Sorting Algorithms");
-        System.out.println("2: Searching Algorithms");
-        System.out.println("3: Hash Tables");
+        System.out.println("2: Selection Algorithms");
+        System.out.println("3: Data Structures");
         System.out.println("4: ");
         System.out.println("Enter your desired number: ");
         
