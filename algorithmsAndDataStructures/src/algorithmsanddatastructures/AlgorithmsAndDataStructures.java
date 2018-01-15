@@ -1,7 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This program implements many algorithms and data structures from Cormen's 
+ * Introduction to Algorithms 3rd ed. Implemented for practice and curiosity.
+
+ * @author Trevor Simpkin
+ * @version 1.0
+ * @since 2018-01-03
  */
 package algorithmsanddatastructures;
 
@@ -10,18 +13,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-
-
-
-/**
- *
- * @author trevor
- */
 public class AlgorithmsAndDataStructures {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         System.out.println("Welcome to Trevor Simpkin's Algorithm and Data "
                 + "Structure tutorial.");
@@ -53,7 +46,7 @@ public class AlgorithmsAndDataStructures {
             }
         }
             
-        HashTable test = new HashTable(100);
+        //HashTable test = new HashTable(100);
         //test.put(0, "First");
         //test.put(1000, "second");
         //System.out.println(test.get(0));
@@ -61,6 +54,13 @@ public class AlgorithmsAndDataStructures {
         //System.out.println(test.get(1000));
         //System.out.println(test);
     }
+    /*
+    * Method to sort an array of integers (unless bucket sort is chosen than
+    * array of doubles. Can use various sorting methods or perform speed test on
+    * sorting methods. 
+    * 
+    * @param arr integer array to be sorted. 
+    */
     public static void sort(int [] arr) {
         if(arr.length<1000) {
             System.out.println("Here is your initial array: ");
@@ -132,15 +132,17 @@ public class AlgorithmsAndDataStructures {
         }
     }
     /*
-    Intro to Algorithms 3rd Ed. implementation of heap sort.
-    Quicksort usually beats heapsort in practice, although there
-    are many uses for heaps. Maybe implement d-ary heap or min-heap for practice
-    later on. Tree visualization works, but needs some tweaks in order to format
-    better. Could also make JavaFX visual, but WHY? Maybe cool to make Web
-    visuals for web site? Uses buildMaxHeap to build initial heap then calls
-    max heapify on remainder of heap after placing largest element in rear of 
-    array (heap). Could also make heap object with maxheapify and constructor 
-    could build maxheap. 
+    * Intro to Algorithms 3rd Ed. implementation of heap sort.
+    * Quicksort usually beats heapsort in practice, although there
+    * are many uses for heaps. Maybe implement d-ary heap or min-heap for practice
+    * later on. Tree visualization works, but needs some tweaks in order to format
+    * better. Could also make JavaFX visual, but WHY? Maybe cool to make Web
+    * visuals for web site? Uses buildMaxHeap to build initial heap then calls
+    * max heapify on remainder of heap after placing largest element in rear of 
+    * array (heap). Could also make heap object with maxheapify and constructor 
+    * could build maxheap. 
+    * 
+    * @param arr integer array to be used with heapsort
     */
     public static void heapSort(int [] arr) {
         buildMaxHeap(arr);
@@ -154,8 +156,11 @@ public class AlgorithmsAndDataStructures {
         
     }
     /*
-    Max Heapify creates a heap. By swapping larger child of parent with parent.
-    This all parents have smaller or equal children. (i.e. Heap). 
+    * Max Heapify creates a heap. By swapping larger child of parent with parent.
+    * This all parents have smaller or equal children. (i.e. Heap). 
+    * @param arr integer array to be reconstructed into heap.
+    * @param i index to be used
+    * @param N third parameter
     */
     public static void maxHeapify (int [] arr, int i, int N) {
         int l = left(i);
@@ -176,9 +181,11 @@ public class AlgorithmsAndDataStructures {
         }
     }
     /*
-    Creates heap out of initial array. Starts with halfway point in array, which
-    is always guaranteed to be largest index with children. Calls maxHeapify on 
-    each until reaches root then guaranteed to have Heap.
+    * Creates heap out of initial array. Starts with halfway point in array, which
+    * is always guaranteed to be largest index with children. Calls maxHeapify on 
+    * each until reaches root then guaranteed to have Heap.
+    * 
+    * @param arr integer array to be turned into heap.
     */
     public static void buildMaxHeap (int [] arr) {
         int N = arr.length-1;
@@ -187,19 +194,29 @@ public class AlgorithmsAndDataStructures {
         }
     }
     /*
-    Helper method for maxHeapify, gets left child index in heap. 
+    * Helper method for maxHeapify, gets left child index in heap. 
+    * 
+    * @param i ith value in heap.
+    * @return integer of left child of i value
     */
     public static int left(int i) {
         return (2*i) + 1;
     }
     /*
-    Helper method for maxHeapify, gets right child index in heap. 
+    * Helper method for maxHeapify, gets right child index in heap. 
+    *
+    * @param i ith value in heap.
+    * @return integer of left child of i value
     */
     public static int right(int i){
         return (2*i) + 2;
     }
     /*
-    Helper method  swaps two elements. 
+    * Helper method swaps two elements in array. 
+    *
+    * @param arr integer array that has values to swap.
+    * @param a integer index of 1st element
+    * @param b integer index of 2nd element
     */
     public static void swap (int [] arr, int a, int b) {
         int temp;
@@ -208,10 +225,14 @@ public class AlgorithmsAndDataStructures {
         arr[a] = temp;
     }
     /*
-    Intro to Algorithms 3rd Ed. implementation of Quick Sort.
-    Quicksort usually beats heapsort in practice, although worst case of Quick
-    Sort is O(n^2) Maybe implement partition demonstration for learning
-    later on.  Maybe cool to make web visuals for web site? 
+    * Intro to Algorithms 3rd Ed. implementation of Quick Sort.
+    * Quicksort usually beats heapsort in practice, although worst case of Quick
+    * Sort is O(n^2) Maybe implement partition demonstration for learning
+    * later on.  Maybe cool to make web visuals for web site? 
+    * 
+    * @param arr integer array to be quicksorted
+    * @param p integer starting index of recursive quicksort
+    * @param r integer ending index of recursive quicksort
     */
     public static void quickSort(int [] arr, int p, int r) {
         if(p < r) {
@@ -221,9 +242,13 @@ public class AlgorithmsAndDataStructures {
         }
     }
     /*
-    Key to quicksort, creates a pivot point (last element in this case) Then
-    splits array based on this pivot point if larger than pivot goes to right
-    else goes to left. i index keeps track of where partition is. 
+    * Key to quicksort, creates a pivot point (last element in this case) Then
+    * splits array based on this pivot point if larger than pivot goes to right
+    * else goes to left. i index keeps track of where partition is. 
+    *
+    * @param arr integer array to be quicksorted
+    * @param p integer starting index of recursive quicksort
+    * @param r integer index of value to partition array on
     */
     public static int partition(int [] arr, int p, int r) {
         int x = arr[r];
@@ -239,7 +264,9 @@ public class AlgorithmsAndDataStructures {
         return i+1;
     }
     /*
-    For comparison to other sorting methods. 
+    * Very simple O(n^2) sorting method for comparison to other sorting methods. 
+    *
+    * @param arr integer array to be insertion sorted
     */
     public static void insertionSort(int [] arr) {
         int key;
@@ -254,6 +281,14 @@ public class AlgorithmsAndDataStructures {
             arr[j+1]=key;
         }
     }
+    /*
+    * Intro to Algorithms 3rd Ed. implementation of Counting Sort.
+    * Non-comparison based sorting method so is not limited by O(nlogn). 
+    * Sort is O(n). Creates count of integers using count array. Then uses copy
+    * of original array to place each value in its correct position. 
+    * 
+    * @param arr integer array to be counting sorted
+    */
     public static void countingSort(int []arr) {
         int [] copy = Arrays.copyOf(arr, arr.length);
         int [] count =  new int [arr.length];
@@ -271,12 +306,29 @@ public class AlgorithmsAndDataStructures {
         }
         
     }
+    /*
+    * Intro to Algorithms 3rd Ed. implementation of radix Sort.
+    * Non-comparison based sorting method so is not limited by O(nlogn). 
+    * Sort is O(n). Uses counting sort. Sorts on individual decimal place starting
+    * at least significant. 
+    * 
+    * @param arr integer array to be counting sorted
+    * @param d integer value of largest number of digits in single number in arr
+    */
     public static void radixSort(int []arr, int d) {
         for (int i = 1; i <= d; i++) {
             int decimal = (int)Math.pow(10,i);
             countingSortRadix(arr, decimal);
         }
     }
+    /*
+    * Intro to Algorithms 3rd Ed. implementation of counting Sort.
+    * Non-comparison based sorting method so is not limited by O(nlogn). 
+    * Sort is O(n). Counting sort but only sorts on specified decimal place
+    * 
+    * @param arr integer array to be counting sorted
+    * @param decimal integer specified decimal place
+    */
     public static void countingSortRadix(int []arr, int decimal) {
         int divideBy = decimal/10; //sort only on decimal place.
         int [] copy = Arrays.copyOf(arr, arr.length);
@@ -294,6 +346,16 @@ public class AlgorithmsAndDataStructures {
         }
         
     }
+    /*
+    * Intro to Algorithms 3rd Ed. implementation of bucket Sort.
+    * Non-comparison based sorting method so is not limited by O(nlogn). 
+    * Sort is O(n). Bucket sort creates buckets of values that are close
+    * places them in a linked list (bucket) then sorts the buckets. Uses double
+    * array though probably equally effective on integer array. 
+    * 
+    * @param arr double array to be bucket sorted
+    * @param numOfBuckets to separate values into. 
+    */
     public static void bucketSort(double []arr, int numOfBuckets) {
         LinkedList [] bucket = new LinkedList[numOfBuckets];
         for (int j = 0; j < numOfBuckets; j++) {
@@ -315,6 +377,12 @@ public class AlgorithmsAndDataStructures {
             }
         }
     }
+    /*
+    * Speed test that compares sorting time of same array using different methods/
+    * Prints results in nanoseconds. 
+    * 
+    * @param arr int array to be sorted by multiple methods 
+    */
     public static void speedTest(int [] arr) {
         int [] copy = Arrays.copyOf(arr, arr.length);
         int [] copy2 = Arrays.copyOf(arr, arr.length);
@@ -338,7 +406,9 @@ public class AlgorithmsAndDataStructures {
         System.out.println(quicksortTime + " nanoseconds!");
     }
     /*
-    Prints array. 
+    * Prints array. 
+    * 
+    * @param arr integer array to be printed
     */
     public static void printArray(int[]arr) {
        System.out.print("[");
@@ -347,6 +417,11 @@ public class AlgorithmsAndDataStructures {
         }
         System.out.println("]");
     }
+    /*
+    * Prints array. 
+    * 
+    * @param arr double array to be printed
+    */
     public static void printArray(double[]arr) {
        System.out.print("[");
         for (double i: arr){
