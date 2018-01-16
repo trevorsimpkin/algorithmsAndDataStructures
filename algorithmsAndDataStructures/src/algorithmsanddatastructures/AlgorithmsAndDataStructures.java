@@ -406,6 +406,31 @@ public class AlgorithmsAndDataStructures {
         System.out.println(quicksortTime + " nanoseconds!");
     }
     /*
+    * Selects the kth largest value. 
+    *
+    * @param arr integer array to select from
+    * @param k kth largest value in array to select.
+    * @return kth largest value
+    */
+    public static int kthSelection (int [] arr, int k) {
+        int i = 0;
+        int key = 0;
+        while (i < arr.length) {
+            for (int j = 0; j < 5; j++){
+                if(j<arr.length){
+                    key= arr[i];
+                    j = i-1;
+                    while(j>=0 && arr[j]>key){
+                        arr[j+1]=arr[j];
+                        j = j-1;
+                    }
+                    arr[j+1]=key;
+                }
+            }
+        }
+        return key;
+    }
+    /*
     * Prints array. 
     * 
     * @param arr integer array to be printed
