@@ -40,6 +40,17 @@ public class AlgorithmsAndDataStructures {
                         }
                         sort(arr);
                         break;
+                case 2: System.out.println("Please enter the desired size of array to sort: ");
+                        int x = in.nextInt();
+                        int [] arrsel = new int[x];
+                        for (int i = 0; i < x; i++){
+                            arrsel[i]=(int)(Math.random()*x);
+                        }
+                        System.out.println("Please enter the desired element to select: ");
+                        int k = in.nextInt();
+                        kthSelection(arrsel, 0, arrsel.length, k);
+                        printArray(arrsel);
+                        break;
                 default: System.out.println("You must make a choice.");
                          choice = 0;
                          break;
@@ -412,23 +423,34 @@ public class AlgorithmsAndDataStructures {
     * @param k kth largest value in array to select.
     * @return kth largest value
     */
-    public static int kthSelection (int [] arr, int k) {
-        int i = 0;
+    public static int kthSelection (int [] arr, int l, int r, int k) {
+        int n = r - l +1; //number of elements in arr[l..r]
         int key = 0;
-        while (i < arr.length) {
-            for (int j = 0; j < 5; j++){
-                if(j<arr.length){
-                    key= arr[i];
-                    j = i-1;
-                    while(j>=0 && arr[j]>key){
-                        arr[j+1]=arr[j];
-                        j = j-1;
-                    }
-                    arr[j+1]=key;
-                }
-            }
+        int partitions = arr.length/5;
+        int [] medians = new int[(arr.length+4)/5];
+        for (int i =0; i<partitions; i++) {
+            printArray(Arrays.copyOfRange(arr, 5*i,(5*i)+5));
+            medians[i]= findMedian(Arrays.copyOfRange(arr, 5*i,(5*i)+5));
         }
+        if(arr.length%5>0) {
+            printArray(Arrays.copyOfRange(arr, partitions*5,arr.length));
+            medians[partitions]=findMedian(Arrays.copyOfRange(arr, partitions*5,arr.length));
+        }
+        printArray(medians);
         return key;
+    }        
+        
+        
+    /*
+    * Finds median of array by sorting using insertion sort then returning
+    * halfway point. Only used in kthSelection on size 5 arrays or smaller. 
+    *
+    * @param arr integer array to find median
+    * @return median integer value
+    */
+    public static int findMedian(int[]arr) {
+        insertionSort(arr);
+        return arr[arr.length/2];
     }
     /*
     * Prints array. 
