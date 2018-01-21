@@ -40,11 +40,11 @@ public class AlgorithmsAndDataStructures {
                         }
                         sort(arr);
                         break;
-                case 2: System.out.println("Please enter the desired size of array to sort: ");
+                case 2: System.out.println("Please enter the desired size of array to select from: ");
                         int x = in.nextInt();
                         int [] arrsel = new int[x];
                         for (int i = 0; i < x; i++){
-                            arrsel[i]=(int)(Math.random()*x);
+                            arrsel[i]=(int)(Math.random()*x); //SHOULD BE DISTINCT ELEMENTS
                         }
                         System.out.println("Please enter the desired element to select: ");
                         int k = in.nextInt();
@@ -428,15 +428,18 @@ public class AlgorithmsAndDataStructures {
         int key = 0;
         int partitions = arr.length/5;
         int [] medians = new int[(arr.length+4)/5];
+        int median;
         for (int i =0; i<partitions; i++) {
-            printArray(Arrays.copyOfRange(arr, 5*i,(5*i)+5));
+            //printArray(Arrays.copyOfRange(arr, 5*i,(5*i)+5));
             medians[i]= findMedian(Arrays.copyOfRange(arr, 5*i,(5*i)+5));
         }
         if(arr.length%5>0) {
-            printArray(Arrays.copyOfRange(arr, partitions*5,arr.length));
+            //printArray(Arrays.copyOfRange(arr, partitions*5,arr.length));
             medians[partitions]=findMedian(Arrays.copyOfRange(arr, partitions*5,arr.length));
         }
-        printArray(medians);
+        median=findMedian(medians);
+        partition(arr, 0, median);
+        printArray(arr);
         return key;
     }        
         
