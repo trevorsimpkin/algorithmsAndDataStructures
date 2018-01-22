@@ -8,6 +8,7 @@
  */
 package algorithmsanddatastructures;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -43,13 +44,12 @@ public class AlgorithmsAndDataStructures {
                 case 2: System.out.println("Please enter the desired size of array to select from: ");
                         int x = in.nextInt();
                         int [] arrsel = new int[x];
-                        for (int i = 0; i < x; i++){
-                            arrsel[i]=(int)(Math.random()*x); //SHOULD BE DISTINCT ELEMENTS
-                        }
+                        distinctArray(arrsel);
                         System.out.println("Please enter the desired element to select: ");
                         int k = in.nextInt();
-                        kthSelection(arrsel, 0, arrsel.length, k);
                         printArray(arrsel);
+                        System.out.println("The " + k +" smallest element is : " + kthSelection(arrsel, 0, arrsel.length-1, k));
+                        
                         break;
                 default: System.out.println("You must make a choice.");
                          choice = 0;
@@ -266,13 +266,34 @@ public class AlgorithmsAndDataStructures {
         int i = p-1;
         for (int j = p; j <= r-1; j++) {
             if(arr[j]<=x) {
-                i = i+1;
+                i = i++;
                 swap(arr, i, j);
             }
             
         }
         swap(arr,i+1,r);
         return i+1;
+    }
+    public static int kthpartition(int [] arr, int p, int r, int x) {
+        boolean found = false;
+        int k = 0;
+        while(!found) {
+            if(arr[k]==x) {
+                swap(arr, k, r);
+                found=true;
+            }
+            k++;
+        }
+        
+        int i = p;
+        for (int j = p; j <= r-1; j++) {
+            if(arr[j]<=x) {
+                swap(arr, i, j);
+                i++;
+            }
+        }
+        swap(arr,i,r);
+        return i;
     }
     /*
     * Very simple O(n^2) sorting method for comparison to other sorting methods. 
@@ -424,23 +445,34 @@ public class AlgorithmsAndDataStructures {
     * @return kth largest value
     */
     public static int kthSelection (int [] arr, int l, int r, int k) {
+        int pos;
         int n = r - l +1; //number of elements in arr[l..r]
-        int key = 0;
-        int partitions = arr.length/5;
-        int [] medians = new int[(arr.length+4)/5];
+        int partitions = n/5;
+        int [] medians = new int[(n+4)/5];
         int median;
         for (int i =0; i<partitions; i++) {
-            //printArray(Arrays.copyOfRange(arr, 5*i,(5*i)+5));
-            medians[i]= findMedian(Arrays.copyOfRange(arr, 5*i,(5*i)+5));
+            medians[i]= findMedian(Arrays.copyOfRange(arr, l+(5*i),(l+(5*i))+5));
+            System.out.println(i+ " "+ l +" "+(l+(5*i)));
+            System.out.println(medians[i]);
         }
-        if(arr.length%5>0) {
-            //printArray(Arrays.copyOfRange(arr, partitions*5,arr.length));
-            medians[partitions]=findMedian(Arrays.copyOfRange(arr, partitions*5,arr.length));
+        System.out.println(n%5);
+        if(n%5>0) {
+            medians[partitions]=findMedian(Arrays.copyOfRange(arr, l+(partitions*5),r+1));
         }
-        median=findMedian(medians);
-        partition(arr, 0, median);
+        printArray(medians);
+        median=findMedian(medians); 
+        System.out.println("median: " + median);
+        pos = kthpartition(arr, l, r, median);
         printArray(arr);
-        return key;
+        if(pos-l==k-1) {
+            return arr[pos];
+        }
+        if(pos-l>k-1) {
+            return kthSelection(arr,l,pos-1,k);
+        }
+        else {
+            return kthSelection(arr,pos+1,r, k-pos+l-1);
+        }
     }        
         
         
@@ -478,6 +510,15 @@ public class AlgorithmsAndDataStructures {
             System.out.print(i + " ");
         }
         System.out.println("]");
+    }
+    public static void distinctArray(int [] arr) {
+        ArrayList<Integer> list = new ArrayList<>(2*arr.length);
+        for (int i =0; i < 2*arr.length; i++) {
+            list.add(i);
+        }
+        for (int j = 0; j < arr.length; j++) {
+            arr[j] = list.remove((int)(Math.random()*list.size()));
+        }
     }
     /*
     public static void printSpaces(int n) {
