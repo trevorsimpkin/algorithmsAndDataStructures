@@ -36,9 +36,7 @@ public class AlgorithmsAndDataStructures {
                 case 1: System.out.println("Please enter the desired size of array to sort: ");
                         int n = in.nextInt();
                         int [] arr = new int[n];
-                        for (int i = 0; i < n; i++){
-                            arr[i]=(int)(Math.random()*n);
-                        }
+                        populateArray(arr, n);
                         sort(arr);
                         break;
                 case 2: System.out.println("Please enter the desired size of array to select from: ");
@@ -47,9 +45,9 @@ public class AlgorithmsAndDataStructures {
                         distinctArray(arrsel);
                         System.out.println("Please enter the desired element to select: ");
                         int k = in.nextInt();
+                        System.out.println("Your initial array is: ");
                         printArray(arrsel);
                         System.out.println("The " + k +" smallest element is : " + kthSelection(arrsel, 0, arrsel.length-1, k));
-                        
                         break;
                 default: System.out.println("You must make a choice.");
                          choice = 0;
@@ -119,9 +117,7 @@ public class AlgorithmsAndDataStructures {
                                 + " satisfy this condition.");
                         int n = arr.length;
                         double [] bucketarr = new double [n];
-                        for (int i = 0; i < n; i++){
-                            bucketarr[i]=Math.random();
-                        }
+                        populateArray(bucketarr, 1.0);
                         System.out.println("Your new array is: ");
                         printArray(bucketarr);
                         bucketSort(bucketarr, 10);
@@ -260,6 +256,7 @@ public class AlgorithmsAndDataStructures {
     * @param arr integer array to be quicksorted
     * @param p integer starting index of recursive quicksort
     * @param r integer index of value to partition array on
+    * @returns integer where partition begins
     */
     public static int partition(int [] arr, int p, int r) {
         int x = arr[r];
@@ -274,6 +271,20 @@ public class AlgorithmsAndDataStructures {
         swap(arr,i+1,r);
         return i+1;
     }
+    /*
+    * Key to kthselection, creates a pivot point (median of median in this case) Then
+    * splits array based on this pivot point if larger than pivot goes to right
+    * else goes to left. i index keeps track of where partition is. Needs extra
+    * parameter compared to quicksort partition method in order to find element 
+    * to partition on. 
+    *
+    * @param arr integer array to be quicksorted
+    * @param p integer starting index of recursive quicksort
+    * @param r integer index of value to partition array on
+    * @param x integer to search for in order to partition around places x value
+    *          in correct spot in array.
+    * @returns integer where partition begins
+    */
     public static int kthpartition(int [] arr, int p, int r, int x) {
         boolean found = false;
         int k = 0;
@@ -438,9 +449,13 @@ public class AlgorithmsAndDataStructures {
         System.out.println(quicksortTime + " nanoseconds!");
     }
     /*
-    * Selects the kth largest value. 
+    * Selects the kth smallest value. Finds median of medians to partition array
+    * then searches for k value in partition that it belongs to. This is a worst
+    * case linear time search. 
     *
     * @param arr integer array to select from
+    * @param l integer start of recursive partition
+    * @param r integer end of recursive partion
     * @param k kth largest value in array to select.
     * @return kth largest value
     */
@@ -452,18 +467,12 @@ public class AlgorithmsAndDataStructures {
         int median;
         for (int i =0; i<partitions; i++) {
             medians[i]= findMedian(Arrays.copyOfRange(arr, l+(5*i),(l+(5*i))+5));
-            System.out.println(i+ " "+ l +" "+(l+(5*i)));
-            System.out.println(medians[i]);
         }
-        System.out.println(n%5);
         if(n%5>0) {
             medians[partitions]=findMedian(Arrays.copyOfRange(arr, l+(partitions*5),r+1));
         }
-        printArray(medians);
-        median=findMedian(medians); 
-        System.out.println("median: " + median);
+        median=findMedian(medians);
         pos = kthpartition(arr, l, r, median);
-        printArray(arr);
         if(pos-l==k-1) {
             return arr[pos];
         }
@@ -511,6 +520,12 @@ public class AlgorithmsAndDataStructures {
         }
         System.out.println("]");
     }
+    /*
+    * populates array with distinct elements with integers up to two times larger
+    * then size of array. 
+    * 
+    * @param int array to be populated
+    */
     public static void distinctArray(int [] arr) {
         ArrayList<Integer> list = new ArrayList<>(2*arr.length);
         for (int i =0; i < 2*arr.length; i++) {
@@ -518,6 +533,30 @@ public class AlgorithmsAndDataStructures {
         }
         for (int j = 0; j < arr.length; j++) {
             arr[j] = list.remove((int)(Math.random()*list.size()));
+        }
+    }
+    /*
+    * populates array with random elements
+    * 
+    * @param int max of values in array
+    * @param int array to be populated
+    */
+    public static void populateArray(int [] arr, int max) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++){
+            arr[i]=(int)(Math.random()*max);
+        }
+    }
+    /*
+    * populates array with random elements
+    * 
+    * @param max double max size of values in array
+    * @param double array to be populated
+    */
+    public static void populateArray( double [] arr, double max) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++){
+            arr[i]=Math.random()*max;
         }
     }
     /*
